@@ -80,7 +80,7 @@ jobs:
   run_sast_scanning:
     needs: [ build_application ]
     name: Run SAST Scanning Workflow
-    uses: seansmith39/H6060-Experiment-1-SAST-Scans/.github/workflows/sast_scan_mvn.yml@v1.0.2
+    uses: seansmith39/H6060-Experiment-1-SAST-Scans/.github/workflows/sast_scan_mvn.yml@v1.0.3
     secrets: inherit
     with:
       sonarqube-project-name: H6060-TelegramBots
@@ -89,3 +89,4 @@ jobs:
       jacoco-coverage-file: 'telegrambots-test-reports/target/site/jacoco-aggregate/jacoco.xml'
       java-version: 17
       java-distribution: zulu
+      maven-setup-required: true
