@@ -21,8 +21,14 @@ jobs:
       - name: Setup Java JDK
         uses: actions/setup-java@v4.2.1
         with:
-          distribution: zulu
+          distribution: temurin
           java-version: 17
+
+      - name: Setup Maven Action
+        uses: s4u/setup-maven-action@v1.12.0
+        with:
+          java-version: 17
+          maven-version: 3.9.6
 
       - name: Build Maven Application
         shell: bash
@@ -63,18 +69,20 @@ jobs:
   run_sca_scanning:
     needs: [ build_application ]
     name: Run SCA Scanning Workflow
-    uses: seansmith39/H6060-Experiment-1-SCA-Scans/.github/workflows/sca_scan_mvn.yml@v1.0.3
+    uses: seansmith39/H6060-Experiment-Workflows/.github/workflows/experiment_1_sca_mvn.yml@v1.0.5
     secrets: inherit
     with:
       project-name: telegrambots
       java-version: 17
       java-distribution: zulu
       mvn-build-artifact: maven-build
+      maven-setup-required: true
+      eclipse-steady-report-enabled: false
 
   run_sast_scanning:
     needs: [ build_application ]
     name: Run SAST Scanning Workflow
-    uses: seansmith39/H6060-Experiment-1-SAST-Scans/.github/workflows/sast_scan_mvn.yml@v1.0.2
+    uses: seansmith39/H6060-Experiment-Workflows/.github/workflows/experiment_1_sast_mvn.yml@v1.0.3
     secrets: inherit
     with:
       sonarqube-project-name: H6060-TelegramBots
@@ -83,3 +91,4 @@ jobs:
       jacoco-coverage-file: 'telegrambots-test-reports/target/site/jacoco-aggregate/jacoco.xml'
       java-version: 17
       java-distribution: zulu
+      maven-setup-required: true
